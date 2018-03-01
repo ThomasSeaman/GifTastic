@@ -6,14 +6,15 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET"
     }).then(function (response) {
-      console.log(response.data[0].images.downsized_medium)
-      console.log(response.data[0].images.downsized_still)
+      console.log(response.data[0].images)
+      // $('<img src="'+response.data[0].images.fixed_height_still.url+'">').appendTo("#images")
+      console.log(response.data[0].images.downsized_still.url)
       for(var i = 0; i<11 ; i++){
-        $('<img src="'+response.data[0].images.downsized_still+'" ' +
-        'data-still="'+response.data[0].images.downsized_still+'" ' +
-        'data-animate="'+response.data[0].images.downsized_medium+'" ' +
+        $('<img src="'+response.data[i].images.fixed_height_still.url+'" ' +
+        'data-still="'+response.data[i].images.fixed_height_still.url+'" ' +
+        'data-animate="'+response.data[i].images.fixed_height.url+'" ' +
         'data-state="still"' +
-        'class="gif">').appendTo("#images")
+        'class="gif" />').appendTo("#images")
       }
     }).catch(function (err) {
       console.error(err);
@@ -22,7 +23,7 @@ $(document).ready(function () {
   ajaxCall()
 
 // var animatedGif = response.data.images.downsized_medium
-// var staticGif = response.data.images.downsized_still
+// var staticGif = response.data.images.fixed_height_still
 
 var gifArray = ["surfing", "gym", "basketball", "swing", "classroom", "zoo", "dog", "cooking", "santa", "olympic"]
 
@@ -39,12 +40,11 @@ $('#search-button').on('click', function () {
 })
 
 // when gif button is clicks, display 10 images below 
-for (var i = 0; i < gifArray.length; i++) {
-  $("#gif-button" + [i]).on("click", function () {
-    // alert("hello")
-    // console.log(response)
+  $(".btn-primary").on("click", function () {
+    
+    
   })
-}
+
 
   // switch between animated gif and still image on image click
   $(".gif").on("click", function () {
