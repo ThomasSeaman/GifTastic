@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
-  function ajaxCall() {
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + gifArray + "%20fails" + "&limit=10&offset=0&rating=g&lang=en";
+  function ajaxCall(term) {
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + term + "%20fails" + "&limit=10&offset=0&rating=g&lang=en";
     $.ajax({
       url: queryURL,
       method: "GET"
@@ -19,8 +19,9 @@ $(document).ready(function () {
     }).catch(function (err) {
       console.error(err);
     })
+    console.log(queryURL)
   }
-  ajaxCall()
+
 
 // var animatedGif = response.data.images.downsized_medium
 // var staticGif = response.data.images.fixed_height_still
@@ -29,7 +30,7 @@ var gifArray = ["surfing", "gym", "basketball", "swing", "classroom", "zoo", "do
 
 // creates buttons 
 for (var i = 0; i < gifArray.length; i++) {
-  $('<button type="submit" class="btn btn-primary" id="gif-button' + [i] + '">' + gifArray[i] + " fails" + '</button>').appendTo('#button-header');
+  $('<button type="submit" class="btn btn-primary gif-button" id="gif-button">' + gifArray[i] + " fails" + '</button>').appendTo('#button-header');
 }
 
 // when search button is clicked, adds button to gifArray
@@ -40,15 +41,15 @@ $('#search-button').on('click', function () {
 })
 
 // when gif button is clicks, display 10 images below 
-  $(".btn-primary").on("click", function () {
-    
+  $(".gif-button").on("click", function () {
+    console.log($(this).text())
     
   })
 
 
   // switch between animated gif and still image on image click
   $(".gif").on("click", function () {
-
+    alert("hello")
     var state = $(this).attr("data-state");
 
     if (state === "still") {
