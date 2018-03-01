@@ -1,19 +1,25 @@
 $(document).ready(function () {
 
-
-  var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + gifArray + "%20fails" + "&limit=10&offset=0&rating=g&lang=en";
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function (response) {
-    // console.log(response)
-    // console.log(response.data[0].images)
-    console.log(response.data[0].images.downsized_medium)
-    console.log(response.data[0].images.downsized_still)
-  }).catch(function (err) {
-    // console.error(err);
-  })
-})
+  function ajaxCall() {
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + gifArray + "%20fails" + "&limit=10&offset=0&rating=g&lang=en";
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function (response) {
+      console.log(response.data[0].images.downsized_medium)
+      console.log(response.data[0].images.downsized_still)
+      for(var i = 0; i<11 ; i++){
+        $('<img src="'+response.data[0].images.downsized_still+'" ' +
+        'data-still="'+response.data[0].images.downsized_still+'" ' +
+        'data-animate="'+response.data[0].images.downsized_medium+'" ' +
+        'data-state="still"' +
+        'class="gif">').appendTo("#images")
+      }
+    }).catch(function (err) {
+      console.error(err);
+    })
+  }
+  ajaxCall()
 
 // var animatedGif = response.data.images.downsized_medium
 // var staticGif = response.data.images.downsized_still
@@ -35,9 +41,10 @@ $('#search-button').on('click', function () {
 // when gif button is clicks, display 10 images below 
 for (var i = 0; i < gifArray.length; i++) {
   $("#gif-button" + [i]).on("click", function () {
-    alert("hello")
-    console.log(response)
+    // alert("hello")
+    // console.log(response)
   })
+}
 
   // switch between animated gif and still image on image click
   $(".gif").on("click", function () {
@@ -52,4 +59,4 @@ for (var i = 0; i < gifArray.length; i++) {
       $(this).attr("data-state", "still");
     }
   });
-};
+});
