@@ -1,55 +1,48 @@
 $(document).ready(function () {
 
   function ajaxCall(term) {
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + term + "%20fails" + "&limit=10&offset=0&rating=g&lang=en";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + term + "&limit=10&offset=0&rating=g&lang=en";
     $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function (response) {
-      console.log(response.data[0].images)
-      // $('<img src="'+response.data[0].images.fixed_height_still.url+'">').appendTo("#images")
-      console.log(response.data[0].images.downsized_still.url)
-      for(var i = 0; i<11 ; i++){
-        $('<img src="'+response.data[i].images.fixed_height_still.url+'" ' +
-        'data-still="'+response.data[i].images.fixed_height_still.url+'" ' +
-        'data-animate="'+response.data[i].images.fixed_height.url+'" ' +
-        'data-state="still"' +
-        'class="gif" />').appendTo("#images")
+
+      for (var i = 0; i < 11; i++) {
+        $('<img src="' + response.data[i].images.fixed_height_still.url + '" ' +
+          'data-still="' + response.data[i].images.fixed_height_still.url + '" ' +
+          'data-animate="' + response.data[i].images.fixed_height.url + '" ' +
+          'data-state="still"' +
+          'class="gif" />').appendTo("#images")
       }
     }).catch(function (err) {
-      console.error(err);
+
     })
-    console.log(queryURL)
+
   }
 
+  var gifArray = ["surfing", "gym", "basketball", "swing", "classroom", "zoo", "dog", "cooking", "santa", "olympic"]
 
-// var animatedGif = response.data.images.downsized_medium
-// var staticGif = response.data.images.fixed_height_still
+  // creates buttons 
+  for (var i = 0; i < gifArray.length; i++) {
+    $('<button type="submit" class="btn btn-primary gif-button" id="gif-button">' + gifArray[i] + " fails" + '</button>').appendTo('#button-header');
+  }
 
-var gifArray = ["surfing", "gym", "basketball", "swing", "classroom", "zoo", "dog", "cooking", "santa", "olympic"]
-
-// creates buttons 
-for (var i = 0; i < gifArray.length; i++) {
-  $('<button type="submit" class="btn btn-primary gif-button" id="gif-button">' + gifArray[i] + " fails" + '</button>').appendTo('#button-header');
-}
-
-// when search button is clicked, adds button to gifArray
-$('#search-button').on('click', function () {
-  var userSearch = $('#user-input').val();
-  gifArray.push(userSearch);
-  $('<button type="submit" class="btn btn-primary" id="gif-button' + [i] + '">' + userSearch + " fails" + '</button>').appendTo('#button-header');
-})
-
-// when gif button is clicks, display 10 images below 
-  $(".gif-button").on("click", function () {
-    console.log($(this).text())
-    
+  // when search button is clicked, adds button to gifArray
+  $('#search-button').on('click', function () {
+    var userSearch = $('#user-input').val();
+    gifArray.push(userSearch);
+    $('<button type="submit" class="btn btn-primary gif-button" id="gif-button">' + userSearch + " fails" + '</button>').appendTo('#button-header');
   })
 
+  // when gif button is clicks, display 10 images below 
+  $(".gif-button").on("click", function () {
+    $('.gif').remove();
+    ajaxCall($(this).text());
+  })
 
   // switch between animated gif and still image on image click
   $(".gif").on("click", function () {
-    alert("hello")
+    alert("hello");
     var state = $(this).attr("data-state");
 
     if (state === "still") {
