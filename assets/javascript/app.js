@@ -1,40 +1,49 @@
 $(document).ready(function () {
-  
-  var gifArray = ["surfing", "gym", "basketball", "swing", "classroom", "zoo", "dog", "cooking", "santa", "olympic"]
+
+
   var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=5YG1izQ996GdM5LUGUHgZgCNfF9L8Dmc&q=" + gifArray + "%20fails" + "&limit=10&offset=0&rating=g&lang=en";
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function (response) {
+    // console.log(response)
+    // console.log(response.data[0].images)
+    console.log(response.data[0].images.downsized_medium)
+    console.log(response.data[0].images.downsized_still)
+  }).catch(function (err) {
+    // console.error(err);
+  })
+})
 
+// var animatedGif = response.data.images.downsized_medium
+// var staticGif = response.data.images.downsized_still
 
-  for (var i = 0; i < gifArray.length; i++) {
-    $('<button type="submit" class="btn btn-primary" id="gif-button' + [i] + '">' + gifArray[i] + " fails" + '</button>').appendTo('#button-header');
-  }
+var gifArray = ["surfing", "gym", "basketball", "swing", "classroom", "zoo", "dog", "cooking", "santa", "olympic"]
 
-  $('#search-button').on('click', function () {
-    var userSearch = $('#user-input').val();
-    gifArray.push(userSearch);
-    $('<button type="submit" class="btn btn-primary" id="gif-button' + [i] + '">' + userSearch + " fails" + '</button>').appendTo('#button-header');
+// creates buttons 
+for (var i = 0; i < gifArray.length; i++) {
+  $('<button type="submit" class="btn btn-primary" id="gif-button' + [i] + '">' + gifArray[i] + " fails" + '</button>').appendTo('#button-header');
+}
+
+// when search button is clicked, adds button to gifArray
+$('#search-button').on('click', function () {
+  var userSearch = $('#user-input').val();
+  gifArray.push(userSearch);
+  $('<button type="submit" class="btn btn-primary" id="gif-button' + [i] + '">' + userSearch + " fails" + '</button>').appendTo('#button-header');
+})
+
+// when gif button is clicks, display 10 images below 
+for (var i = 0; i < gifArray.length; i++) {
+  $("#gif-button" + [i]).on("click", function () {
+    alert("hello")
+    console.log(response)
   })
 
-
-  for (var i = 0; i < gifArray.length; i++) {
-    $("#gif-button" + [i]).on("click", function () {
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      }).then(function (response) {
-        console.log(response)
-      }).catch(function (err) {
-          // console.error(err);
-        })
-      })
-  }
-
-
+  // switch between animated gif and still image on image click
   $(".gif").on("click", function () {
-    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+
     var state = $(this).attr("data-state");
-    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-    // Then, set the image's data-state to animate
-    // Else set src to the data-still value
+
     if (state === "still") {
       $(this).attr("src", $(this).attr("data-animate"));
       $(this).attr("data-state", "animate");
@@ -43,4 +52,4 @@ $(document).ready(function () {
       $(this).attr("data-state", "still");
     }
   });
-});
+};
