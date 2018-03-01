@@ -38,14 +38,13 @@ $(document).ready(function () {
     var userSearch = $('#user-input').val();
     gifArray.push(userSearch);
     $('<button type="submit" class="btn btn-primary gif-button-new" id="gif-button">' + userSearch + " fails" + '</button>').appendTo('#button-header');
-    console.log(gifArray)
     $('.gif').remove();
     ajaxCall($(".gif-button-new").text());
   })
 
   // switch between animated gif and still image on image click
-  $(".gif").on("click", function() {
-    console.log(this)
+  // I can't seem to target this .gif to click.
+  $('.gif').on('click', function () {
     alert("hello")
     console.log("hello")
     var state = $(this).attr("data-state");
